@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-a
+  template:
+    metadata:
+      labels:
+        app: app-a
+    spec:
+      containers:
+        - name: app-a
+          image: lyzhang1999/opentelemetry-python
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+            requests:
+              cpu: 50m
+              memory: 50Mi
+          ports:
+            - containerPort: 8000
+        - name: siege
+          image: yokogawa/siege
+          command: ["/bin/sh", "-c"]
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+            requests:
+              cpu: 50m
+              memory: 50Mi
+          args:
+            - |
+              while true;
+              do
+                siege -c 2 -r 3 http://localhost:8000/chain
+                sleep 5
+              done
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-a
+  labels:
+    app: app-a
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      name: web
+      targetPort: 8000
+  selector:
+    app: app-a

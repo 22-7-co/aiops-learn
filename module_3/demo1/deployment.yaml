@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-1
+  name: demo-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: demo-1
+    spec:
+      containers:
+        - name: module3
+          image: tide/module3:latest
+          imagePullPolicy: Always
+status: {}

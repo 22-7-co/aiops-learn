@@ -1,0 +1,21 @@
+apiVersion: devops.geektime.devopscamp.gk/v1
+kind: Spotpool
+metadata:
+  labels:
+    app.kubernetes.io/name: spotpool
+    app.kubernetes.io/managed-by: kustomize
+  name: spotpool-sample
+spec:
+  secretId: AKIDwkKhpiSyHL0Yy8wcSG54z3UxDG53tWv6
+  secretKey: 70gLEHJPjw1tX2PYhhliYIonX8VefS6d
+  region: ap-singapore
+  availabilityZone: ap-singapore-2
+  instanceType: "GN7.2XLARGE32"
+  minimum: 2
+  maximum: 2
+  subnetId: DEFAULT
+  vpcId: DEFAULT
+  securityGroupIds:
+    - sg-fa6xctas
+  imageId: img-487zeit5
+  instanceChargeType: SPOTPAID

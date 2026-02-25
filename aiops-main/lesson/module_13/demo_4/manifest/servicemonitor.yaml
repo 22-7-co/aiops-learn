@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: opentelemetry-python-service-monitor-raw
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: opentelemetry-python-raw
+  endpoints:
+    - port: web
+      interval: 10s
+      path: /metrics

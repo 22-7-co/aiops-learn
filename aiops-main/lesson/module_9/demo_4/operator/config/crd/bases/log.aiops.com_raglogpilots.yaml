@@ -1,0 +1,68 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: raglogpilots.log.aiops.com
+spec:
+  group: log.aiops.com
+  names:
+    kind: RagLogPilot
+    listKind: RagLogPilotList
+    plural: raglogpilots
+    singular: raglogpilot
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: RagLogPilot is the Schema for the raglogpilots API
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: RagLogPilotSpec defines the desired state of RagLogPilot
+            properties:
+              ragFlowEndpoint:
+                type: string
+              ragFlowToken:
+                type: string
+              workloadNameSpace:
+                type: string
+            required:
+            - ragFlowEndpoint
+            - ragFlowToken
+            - workloadNameSpace
+            type: object
+          status:
+            description: RagLogPilotStatus defines the observed state of RagLogPilot
+            properties:
+              conversationId:
+                description: |-
+                  INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
+                  Important: Run "make" to regenerate code after modifying this file
+                type: string
+            required:
+            - conversationId
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

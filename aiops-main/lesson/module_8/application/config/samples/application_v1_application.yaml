@@ -1,0 +1,29 @@
+apiVersion: application.aiops.com/v1
+kind: Application
+metadata:
+  labels:
+    app.kubernetes.io/name: application
+    app.kubernetes.io/managed-by: kustomize
+  name: application-sample
+spec:
+  deployment:
+    image: nginx
+    replicas: 1
+    port: 80
+  service:
+    ports:
+      - port: 80
+        targetPort: 80
+  ingress:
+    ingressClassName: nginx
+    rules:
+      - host: example.foo.com
+        http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: application-sample
+                  port:
+                    number: 80
