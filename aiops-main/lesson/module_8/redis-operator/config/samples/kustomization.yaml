@@ -1,5 +1,0 @@
-## Append samples of your project ##
-resources:
-- app_v1_redis.yaml
-- app_v1_clickhouse.yaml
-#+kubebuilder:scaffold:manifestskustomizesamples
