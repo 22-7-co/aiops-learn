@@ -1,0 +1,48 @@
+beyla.ebpf "default" {
+	attributes {
+		kubernetes {
+			enable = "true"
+		}
+	}
+
+	discovery {
+		services {
+      kubernetes {
+				namespace = "default"
+				deployment_name = "."
+      }
+		}
+	}
+
+	metrics {
+		features = [
+			"application",
+		]
+	}
+
+	output {
+		traces = [otelcol.exporter.otlp.tempo.input]
+	}
+}
+
+prometheus.scrape "beyla" {
+	targets      = beyla.ebpf.default.targets
+	honor_labels = true
+	forward_to   = [prometheus.remote_write.rw.receiver]
+}
+
+prometheus.remote_write "rw" {
+	endpoint {
+		url = "http://prometheus-stack-prometheus.prometheus:9090/api/v1/write"
+	}
+}
+
+otelcol.exporter.otlp "tempo" {
+	client {
+		endpoint = "tempo-distributor.tracing:4317"
+		tls {
+            insecure             = true
+            insecure_skip_verify = true
+        }
+	}
+}

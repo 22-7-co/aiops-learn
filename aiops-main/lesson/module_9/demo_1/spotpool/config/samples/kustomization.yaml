@@ -1,0 +1,4 @@
+## Append samples of your project ##
+resources:
+- devops.geektime_v1_spotpool.yaml
+#+kubebuilder:scaffold:manifestskustomizesamples

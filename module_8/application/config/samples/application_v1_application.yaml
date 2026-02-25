@@ -1,0 +1,30 @@
+apiVersion: application.aiops.com/v1
+kind: Application
+metadata:
+    labels:
+        app.kubernetes.io/name: application
+        app.kubernetes.io/managed-by: kustomize
+    name: application-sample
+spec:
+    # TODO(user): Add fields here
+    deployment:
+        image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/nginx:1.28.1-alpine
+        replicas: 1
+        port: 80
+    service:
+        ports:
+            - port: 80
+              targetPort: 80
+    ingress:
+        ingressClassName: nginx
+        rules:
+            - host: application.aiops.com
+              http:
+                  paths:
+                      - path: /
+                        pathType: Prefix
+                        backend:
+                            service:
+                                name: application-sample
+                                port:
+                                    number: 80

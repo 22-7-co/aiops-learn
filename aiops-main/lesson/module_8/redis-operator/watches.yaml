@@ -1,0 +1,6 @@
+# Use the 'create api' subcommand to add watches to this file.
+- group: app.aiops.com
+  version: v1
+  kind: Redis
+  chart: helm-charts/redis
+#+kubebuilder:scaffold:watch

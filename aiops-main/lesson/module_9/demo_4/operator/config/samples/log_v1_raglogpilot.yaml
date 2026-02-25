@@ -1,0 +1,11 @@
+apiVersion: log.aiops.com/v1
+kind: RagLogPilot
+metadata:
+  labels:
+    app.kubernetes.io/name: operator
+    app.kubernetes.io/managed-by: kustomize
+  name: raglogpilot-sample
+spec:
+  workloadNameSpace: default
+  ragFlowEndpoint: "http://101.32.208.76/v1/api"
+  ragFlowToken: "ragflow-U1MTk1OTc1N2E1NTExZWY5NjZkMDI0Mm"

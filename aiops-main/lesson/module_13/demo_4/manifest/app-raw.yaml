@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opentelemetry-python-raw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opentelemetry-python-raw
+  template:
+    metadata:
+      labels:
+        app: opentelemetry-python-raw
+    spec:
+      containers:
+        - name: opentelemetry-python-raw
+          image: lyzhang1999/opentelemetry-python-raw
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+            requests:
+              cpu: 50m
+              memory: 50Mi
+          imagePullPolicy: Always
+          env:
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: "app=opentelemetry-python-raw"
+            - name: OTEL_SERVICE_NAME
+              value: "opentelemetry-python-raw"
+            - name: OTEL_METRICS_EXPORTER
+              value: "none"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://tempo.monitoring:4317"
+            - name: OTEL_TRACES_EXPORTER
+              value: "otlp"
+            - name: OTEL_PYTHON_LOG_CORRELATION
+              value: "true"
+            - name: OTEL_PYTHON_LOG_LEVEL
+              value: "debug"
+          command: ["opentelemetry-instrument", "python", "main.py"]
+          ports:
+            - containerPort: 8000
+        - name: siege
+          image: yokogawa/siege
+          command: ["/bin/sh", "-c"]
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+            requests:
+              cpu: 50m
+              memory: 50Mi
+          args:
+            - |
+              while true;
+              do
+                siege -c 1 -r 10 http://localhost:8000/
+                siege -c 3 -r 5 http://localhost:8000/io
+                siege -c 2 -r 5 http://localhost:8000/cpu
+                siege -c 5 -r 3 http://localhost:8000/random_sleep
+                siege -c 2 -r 10 http://localhost:8000/random_status
+                siege -c 2 -r 3 http://localhost:8000/chain
+                siege -c 1 -r 1 http://localhost:8000/error_test
+                sleep 5
+              done
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opentelemetry-python-raw
+  labels:
+    app: opentelemetry-python-raw
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      name: web
+      targetPort: 8000
+  selector:
+    app: opentelemetry-python-raw

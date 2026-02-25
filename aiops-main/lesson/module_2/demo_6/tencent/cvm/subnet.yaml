@@ -1,0 +1,11 @@
+apiVersion: vpc.tencentcloud.crossplane.io/v1alpha1
+kind: Subnet
+metadata:
+  name: example-cvm-subnet
+spec:
+  forProvider:
+    availabilityZone: "ap-hongkong-2"
+    cidrBlock: "10.2.2.0/24"
+    name: "test-crossplane-cvm-subnet"
+    vpcIdRef:
+      name: "example-cvm-vpc"
