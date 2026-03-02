@@ -4,8 +4,8 @@ metadata:
   annotations:
     alm-examples: '[]'
     capabilities: Basic Install
-    createdAt: "2024-09-11T03:25:03Z"
-    operators.operatorframework.io/builder: operator-sdk-v1.36.1
+    createdAt: "2026-03-01T07:37:22Z"
+    operators.operatorframework.io/builder: operator-sdk-v1.39.1
     operators.operatorframework.io/project_layout: helm.sdk.operatorframework.io/v1
   name: redis-operator.v0.0.1
   namespace: placeholder

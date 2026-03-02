@@ -41,9 +41,10 @@ type ApplicationSpec struct {
 }
 
 type ApplicationDeployment struct {
-	Image    string `json:"image"`
-	Replicas int32  `json:"replicas"`
-	Port     int32  `json:"port"`
+	Image    string             `json:"image"`
+	Replicas int32              `json:"replicas"`
+	Port     int32              `json:"port"`
+	Service  corev1.ServiceSpec `json:"service"`
 }
 
 // ApplicationStatus defines the observed state of Application.
