@@ -1,0 +1,20 @@
+apiVersion: devops.geektime.devopscamp.dk/v1
+kind: SpotPool
+metadata:
+  labels:
+    app: my-spot-pool
+  name: my-spot-pool
+spec:
+  secretId: my-secret-id
+  secretKey: my-secret-key
+  region: ap-singapore
+  availabilityZone: ap-singapore-2
+  instanceType: "GN7.2xlarge32"
+  minimum: 2
+  maximum: 2
+  vpcId: vpc-dm9bzpug
+  subnetId: subnet-n09geves
+  securityGroupIds:
+    - sg-dm9bzpug
+  imageId: img-e734psbk
+  instanceChangeType: SPOTPAID
