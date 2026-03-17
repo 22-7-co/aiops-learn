@@ -1,0 +1,18 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: week9-app-keda-hpa
+spec:
+  scaleTargetRef:
+    name: week9-prometheus-app
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  cooldownPeriod: 30 # 仅演示，生产建议设置为 300
+  triggers:
+    - type: prometheus
+      name: http_requests_error_qps
+      metadata:
+        serverAddress: http://kube-prometheus-stack-prometheus.monitoring:9090
+        threshold: "10"
+        metricName: response_status
+        query: sum(rate(response_status{service="week9-prometheus-app-service",status="500"}[1m]))

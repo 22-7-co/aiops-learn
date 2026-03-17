@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: kube-prometheus-stack
+  name: app-http-qps-alert
+spec:
+  groups:
+    - name: app_http
+      rules:
+        - expr: |
+            sum(rate(http_requests_total{job="week9-prometheus-app-service"}[1m])) by(path) > 10
+          for: 10s
+          alert: App QPS High Alert
+          annotations:
+            summary: 突发流量告警
+            description: 接口 {{$labels.path}} QPS 过高，值为 {{ $value }}
+          labels:
+            severity: critical

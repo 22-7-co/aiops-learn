@@ -221,8 +221,8 @@ func (r *SpotpoolReconciler) createCVMClient(spec v1.SpotpoolSpec) (*cvm.Client,
 	credential := common.NewCredential(spec.SecretId, spec.SecretKey)
 	cpf := profile.NewClientProfile()
 	cpf.HttpProfile = &profile.HttpProfile{
-		ReqMethod: "POST",
-		Endpoint:  "cvm.tencentcloudapi.com",
+		ReqMethod:  "POST",
+		ReqTimeout: 50,
 	}
 	cpf.SignMethod = "HmacSHA1"
 	client, err := cvm.NewClient(credential, spec.Region, cpf)
